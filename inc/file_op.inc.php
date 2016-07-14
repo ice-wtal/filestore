@@ -2,6 +2,8 @@
 	}		function body() { // wird im Hauptbereich angezeigt		//		print_r( $_POST );		echo '<div class="page-header">				<h1>Filelinks <small>to direct download, use in Mailings or Emails</small></h1>			</div>';		$this->folders2array();		$this->files2array();		$this->filearray2list();
 		
 	}	function folderCreate() {
+		// alle Dateien werden im Folder "files" abgelegt - check if available
+		is_dir("files") || mkdir("files");
 		// aktueller Folder? jahr(2) monat
 		$path = "files/" . substr( date("Y"), -2 ) . date("m");
 		// wenn nicht vorhanden, erstellen

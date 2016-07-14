@@ -9,7 +9,12 @@
 */
 	@session_start(); // session aufrufen
 	header('Content-Type: text/html; charset=utf-8');
-	include_once ('config.inc.php');
+	// load config file
+	if ( file_exists( 'config.localhost.php' ) ) {
+		include_once ('config.localhost.php');
+	} else {
+		include_once ('config.inc.php');
+	}
 
 	// Übergebenen Parameter in Array
 	$_SESSION['cfg_param'] = explode( ";", $_GET['param'] );
