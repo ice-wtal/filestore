@@ -27,7 +27,7 @@ class login {
 		}
 	}
 	function verifySimple() {
-		if ( $_POST["username"] == "administrator" AND $_POST["password"] == "xxxx" ) {
+		if ( $_POST["username"] == "administrator" AND $_POST["password"] == $_SESSION['cfg_adminPass'] ) {
 			$_SESSION['cfg_userno'] = 1;
 			$_SESSION['message'][] = "You are logged in.::0";
 			$_SESSION['cfg_lastRefresh'] = time();
