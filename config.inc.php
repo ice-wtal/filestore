@@ -7,7 +7,8 @@
 	$_SESSION['cfg_userno']			// User Nr., wenn > 0 ist User angemeldet
 
 */
-
+	$_SESSION['cfg_adminPass']	= "xxxx"	// Password to access before Multiuser config
+	
 	$_SESSION['cfg_base_url']		= "http://www.filestore.com/";
 	$_SESSION['cfg_rootdir']		= '/filestore'; // Verzeichnis der index.php (Startdatei)
 
