@@ -2,7 +2,9 @@
 /*
 	ToDo:
 
-	!!! LOGIN !!!	Mit real_escape_string() absichern. Passwort mit passwort_hash() erstellen und in 255 Zeichen langes Feld speichern!*/
+	!!! LOGIN !!!
+	Mit real_escape_string() absichern. Passwort mit passwort_hash() erstellen und in 255 Zeichen langes Feld speichern!
+*/
 class login {
 
 	private $mysqli;
@@ -25,7 +27,7 @@ class login {
 		}
 	}
 	function verifySimple() {
-		if ( $_POST["username"] == "administrator" AND $_POST["password"] == "schweigen" ) {
+		if ( $_POST["username"] == "administrator" AND $_POST["password"] == "xxxx" ) {
 			$_SESSION['cfg_userno'] = 1;
 			$_SESSION['message'][] = "You are logged in.::0";
 			$_SESSION['cfg_lastRefresh'] = time();
