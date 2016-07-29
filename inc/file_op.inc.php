@@ -35,7 +35,12 @@
 				<p></p>
 				<button type="submit" class="btn btn-default" name="uploadBtn" id="submit-all">Submit all files</button>
 				</form>
-				<p></p>';
+				<p></p>
+				<h3>Aktuell können nur relativ kleine Dateien hochgeladen werden!</h3>
+				<p>Unser Hoster 1&1 beschränkt die Ausführzeit für Scripte auf 60 Sekunden. Da der Upload größerer Dateien länger dauert,
+				bricht der Upload nach 60 Sekunden ab.</p>
+				<p>Versuche haben ergeben, das zum Beispiel 3 MB große Dateien funktionieren (wohl auch einiges mehr), 20 MB aber nicht!</p>
+				<p>Dies ist aber auch abhängig von der Internetverbindung. Mit einer vDSL Anbindung funktionieren unter Umständen auch 20 MB!</p>';
 	}
 	function fileUpload() {
 		$path = $this->folderCreate();
@@ -43,6 +48,7 @@
 //			$fileSub = substr (strrchr ($_FILES['datei']['name'], "."), 0);
 			if( $_FILES['datei']['size'] < 15360000 AND $_FILES['datei']['size'] > 0 ) {
 				// Datei kopieren
+//				echo '<p>Kopiere Datei "' . $_FILES['datei']['tmp_name'] . '" nach "' . $path . "/" . urlencode( $_FILES['datei']['name'] ) . '"</p>';
 				move_uploaded_file($_FILES['datei']['tmp_name'], $path . "/" . urlencode( $_FILES['datei']['name'] ) );
 			}
 		}

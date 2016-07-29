@@ -2,6 +2,10 @@
 /*
 	filestore-sa mit bootstrap!
 	
+	bei 1und1 ist die script execution time auf 60 sec. festgelegt und läßt sich auch nicht per php.ini ändern!
+	
+	!! Deshalb können keine großen Dateien hochgeladen werden !!
+	
 	<!-- For bootstrap fixed Nav, body padding is required -->
 		<style type="text/css">
 		  body { padding-top: 70px; }
@@ -23,6 +27,9 @@
 //		$_SESSION["startParam"] = ( empty( $_GET['param'] ) ? "" : $_GET['param'] );
 //	}
 
+//	set_time_limit(0); // Scripte laufen unbegrenzt, Upload dauert schon mal länger
+	error_reporting (0); // zeigt alle Fehler - mit "0" abschalten, -1 zeigt alle Fehler!
+//	date_default_timezone_set("Europe/Berlin");
 
 	# Hauptseite laden
 	include_once ($_SESSION['cfg_rootdir'].'/inc/index.inc.php');
