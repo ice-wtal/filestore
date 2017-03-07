@@ -71,17 +71,17 @@
 				$target = preg_replace("/[^a-zA-Z0-9_-]/", "_", $_FILES['file']['name'] ); // Sonderzeichen werden ausgetauscht
 				// Gibt es die Datei schon? Dann ein "(1)" anhängen
 				if ( file_exists( $path . "/" . $target ) ) {
-					echo "Eine Datei mit diesem Namen existiert schon.\n";
-					echo "Der Upload wurde deshalb abgebrochen!\n";
+					echo "A File with this name does already exist.\n";
+					echo "The Upload was canceled!\n";
 				} else  {
 					if ( $target != $_FILES['file']['tmp_name'] ) {
-						echo "Die Datei wird umbenannt in " . $target . "...\n";
+						echo "New Filename is " . $target . "...\n";
 					}
 					// Datei kopieren
 	//				$_SESSION['message'][] = "Die Datei wurde kopiert.::0";
 					move_uploaded_file( $_FILES['file']['tmp_name'], $path . "/" . $target );
-					echo "Die Datei wurde hochgeladen!\n";
-					echo "<h4>Der Downloadlink ist " . $_SESSION['cfg_base_url'] . $path . "/" . $target . "</h4>\n";
+					echo "The File has been uploaded!\n";
+					echo "<h4>The Downloadlink is " . $_SESSION['cfg_base_url'] . $path . "/" . $target . "</h4>\n";
 				}
 			}
 		}
