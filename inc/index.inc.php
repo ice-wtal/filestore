@@ -1,8 +1,9 @@
 <?php/*	ToDo:	- Version 0.1: nur Dateien per FTP hochladen und anzeigen > erl.	- Version 0.2: Login für Adminuser > erl.
-		- Dateien in Datenbank
+		- Dateien löschen können, erl.
+		- doppelte Dateien erkennen und Namen ändern, z.B. (1) anhängen		- Dateien in Datenbank (Tabellen erstellen, ändern per install script)
 		- Dateinamen / Downloadnamen anpassen
 		- Suche
-		- Dateien löschen können	- Version 0.3: Upload von Dateien für Adminuser		Datei ersetzen können, also nach vorhandener Datei suchen und Link von dort auf die neue Datei erstellen?		*/class index {	private $mysqli;		function __construct() {	// wird vor jeglicher Ausgabe ausgeführt!
+	- Version 0.3: Upload von Dateien für Adminuser		Datei ersetzen können, also nach vorhandener Datei suchen und Link von dort auf die neue Datei erstellen?		*/class index {	private $mysqli;		function __construct() {	// wird vor jeglicher Ausgabe ausgeführt!
 		// Verbindung zur Datenbank herstellen
 		$this->mysqli = new mysqli( $_SESSION['cfg_db_host'], $_SESSION['cfg_db_user'], $_SESSION['cfg_db_pass'], $_SESSION['cfg_db_name'] );		mysqli_set_charset( $this->mysqli, 'utf8'); // lt. PHP Doku ist dies der bevorzugte Weg!		if (mysqli_connect_errno()) {
     		printf("Connect failed: %s\n", mysqli_connect_error());
@@ -10,10 +11,16 @@
 		}
 		include_once ($_SESSION['cfg_rootdir'].'/inc/login.inc.php');		$login = new login( $this->mysqli );//		include_once ($_SESSION['config']['rootdir'].'/inc/functions.inc.php');//		$this->functions = new functions();/*		// Logout gewünscht oder länger als x Minuten keine Eingabe?		if ( $this->param[0] == "logout" OR !empty( $_POST["logout"] ) OR $_SESSION['config']['lastAccess'] < time() - $_SESSION['config']['autoLogout'] * 60 AND !empty( $_SESSION["email"] ) ) {			$this->login->logout();		} else {			include_once ($_SESSION['config']['rootdir'].'/inc/log.inc.php');			$log = new log();
 			$this->logging = $log;			$log->logText( implode( ";", $this->param ), 1 );		}		// Zeit des letzten Zugriffs im Cookie setzen		$_SESSION['config']['lastAccess'] = time();		// Wurde Bestätigungsmail / -link geklickt		$this->confirm->linkCheck();		// Eingeloggt?		if ( empty( $_SESSION["email"] ) AND !empty( $_POST["login"] ) ) {			$this->login->verifyUser();		}			*/
-	}		function title() {		return "filestore-sa";	}	function navigation() {		// Menüpunkt für Startseite		echo '<ul class="nav navbar-nav">				<li class="dropdown">				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Start				<span class="caret"></span></a>				<ul class="dropdown-menu">					<li' . ( empty( $_SESSION['cfg_param'][0] ) ? ' class="active"' : "" ) . '>							<a href="index.php">Homepage</a></li>					<li role="separator" class="divider"></li>';
+	}		function title() {		return "filestore-sa";	}	function navigation() {/*
+		// Menüpunkt für Startseite		echo '<ul class="nav navbar-nav">				<li class="dropdown">				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Start				<span class="caret"></span></a>				<ul class="dropdown-menu">					<li' . ( empty( $_SESSION['cfg_param'][0] ) ? ' class="active"' : "" ) . '>							<a href="index.php">Homepage</a></li>					<li role="separator" class="divider"></li>';
 		if ( $_SESSION['cfg_userno'] ) { // extra Punkte wenn eingeloggt
 			echo '<li' . ( $_SESSION['cfg_param'][0] == "upload" ? ' class="active"' : "" ) . '>						<a href="index.php?param=upload">Fileupload</a></li>					<li role="separator" class="divider"></li>';
-		}			echo '<li' . ( $_SESSION['cfg_param'][0] == "imprint" ? ' class="active"' : "" ) . '>						<a href="index.php?param=imprint">Imprint</a></li>				</ul>				</li>			</ul>';		// Loginform - ausblenden wenn eingeloggt		echo '<form class="navbar-form navbar-nav" role="login" action="' . $_SERVER['REQUEST_URI'] . '" name="loginform" method="post">';		if ( $_SESSION['cfg_userno'] ) {
+		}			echo '<li' . ( $_SESSION['cfg_param'][0] == "imprint" ? ' class="active"' : "" ) . '>						<a href="index.php?param=imprint">Imprint</a></li>				</ul>				</li>			</ul>';*/
+		// Menüpunkt für Startseite		echo '<ul class="nav navbar-nav">					<li' . ( empty( $_SESSION['cfg_param'][0] ) ? ' class="active"' : "" ) . '>							<a href="index.php">Startseite</a></li>					<li role="separator" class="divider"></li>';
+		if ( $_SESSION['cfg_userno'] ) { // extra Punkte wenn eingeloggt
+			echo '<li' . ( $_SESSION['cfg_param'][0] == "upload" ? ' class="active"' : "" ) . '>						<a href="index.php?param=upload">Fileupload</a></li>					<li role="separator" class="divider"></li>';
+		}			echo '<li' . ( $_SESSION['cfg_param'][0] == "imprint" ? ' class="active"' : "" ) . '>						<a href="index.php?param=imprint">Imprint</a></li>			</ul>';
+		// Loginform - ausblenden wenn eingeloggt		echo '<form class="navbar-form navbar-nav" role="login" action="' . $_SERVER['REQUEST_URI'] . '" name="loginform" method="post">';		if ( $_SESSION['cfg_userno'] ) {
 			echo '<button type="submit" class="btn btn-default" name="logout" value="1"><span class="glyphicon glyphicon-log-out"></span> Logout</button>';
 		} else {
 			echo '<div class="form-group">						<input type="text" class="form-control" name="username" placeholder="Username">					</div>					<div class="form-group">						<input type="password" class="form-control" name="password" placeholder="Password">					</div>					<button type="submit" class="btn btn-default" name="login" value="1"><span class="glyphicon glyphicon-log-in"></span> Login</button>';

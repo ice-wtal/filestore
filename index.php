@@ -49,6 +49,7 @@
 		<!-- Compatibility Mode for IE -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> 
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<!-- Optionales Theme -->
 <!--		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> -->
