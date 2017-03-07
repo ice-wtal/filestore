@@ -1,6 +1,5 @@
-<?php/*	File Operations	ToDo:
-	- "#" Zeichen im Dateinamen macht Probleme beim Download! Entfernen / Ersetzen!
-	- Löschen: Ordner löschen wenn leer!*/class file_op {	private $mysqli;	private $folders;		// unterverzeichnisse von /files	function __construct( $mysqli ) {		$this->mysqli = $mysqli;
+<?php/*	File Operations	ToDo:	- "#" Zeichen im Dateinamen macht Probleme beim Download! Entfernen / Ersetzen!
+	- Löschen: Ordner löschen wenn leer!*/class file_op {	private $mysqli;	private $folders;		// unterverzeichnisse von /files	function __construct( $mysqli ) {		$this->mysqli = $mysqli;
 		if ( !empty( $_POST['delete'] ) ) {
 			$this->del_file();
 		}
