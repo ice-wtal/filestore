@@ -1,11 +1,11 @@
 <?php
 /*
 	filestore-sa mit bootstrap!
-	
+
 	bei 1und1 ist die script execution time auf 60 sec. festgelegt und läßt sich auch nicht per php.ini ändern!
-	
+
 	!! Deshalb können keine großen Dateien hochgeladen werden !!
-	
+
 	<!-- For bootstrap fixed Nav, body padding is required -->
 		<style type="text/css">
 		  body { padding-top: 70px; }
@@ -13,6 +13,7 @@
 */
 	@session_start(); // session aufrufen
 	header('Content-Type: text/html; charset=utf-8');
+
 	// load config file
 	if ( file_exists( 'config.localhost.php' ) ) {
 		include_once ('config.localhost.php');
@@ -49,7 +50,7 @@
 		<!-- Compatibility Mode for IE -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> 
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<!-- Optionales Theme -->
 <!--		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> -->

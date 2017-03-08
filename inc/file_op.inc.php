@@ -1,5 +1,5 @@
 <?php/*	File Operations	ToDo:	- "#" Zeichen im Dateinamen macht Probleme beim Download! Entfernen / Ersetzen!
-	- Löschen: Ordner löschen wenn leer!*/class file_op {	private $mysqli;	private $folders;		// unterverzeichnisse von /files	function __construct( $mysqli ) {		$this->mysqli = $mysqli;
+	- Löschen: Ordner löschen wenn leer!*/class file_op {	private $mysqli;	private $folders;		// unterverzeichnisse von /files	private $files;	function __construct( $mysqli ) {		$this->mysqli = $mysqli;
 		if ( !empty( $_POST['delete'] ) ) {
 			$this->del_file();
 		}
@@ -15,8 +15,8 @@
 		return $path;
 	}
 	function folders2array() {		$folders = glob( $_SESSION['cfg_rootdir'] . '/files/*' );		foreach( $folders as $folder ) {			$this->folders[] = substr_replace( $folder, "", 0, ( strlen( $_SESSION['cfg_rootdir'] ) + 1 ) );		}	}	function files2array() {		$i = 0;		foreach( $this->folders as $folder ) {			$files = glob( $_SESSION['cfg_rootdir'] . '/' . $folder . '/*' );			// Verzeichnis abziehen			foreach( $files as $file ) {				$this->files[$i][] = substr_replace( $file, "", 0, ( strlen( $_SESSION['cfg_rootdir'] . '/' . $folder ) + 1 ) );				$this->files[$i][] = substr_replace( $file, "", 0, ( strlen( $_SESSION['cfg_rootdir'] ) + 1 ) );				$i++;			}		}	}	function filearray2list () {//		print_r( $_POST );
-		echo '<form class="form-horizontal" name="eingang" action="' . $_SERVER['REQUEST_URI'] . '" method="POST" >';		echo '<div class="col-md-10 col-md-offset-1">
-				<table class="table table-hover">';		foreach( $this->files as $file ) {			echo "<tr>";
+		echo '<form class="form-horizontal" name="eingang" action="' . $_SERVER['REQUEST_URI'] . '" method="POST" >					<div class="col-md-10 col-md-offset-1">
+						<table class="table table-hover">';		foreach( $this->files as $file ) {			echo "<tr>";
 			// Lösch- Button und Datum! nur wenn angemeldet!
 			if ( $_SESSION['cfg_userno'] ) {
 				echo '<td>
@@ -35,8 +35,8 @@
 						</td>
 						<td class="text-right"><span class="badge">' . $this->human_filesize( filesize( $file[1] ), 1 ) . '</span></td>
 						';			echo "</tr>";
-		}		echo '</table>
-				</div>';		echo '</form>';	}
+		}		echo '	</table>
+					</div>					</form>';	}
 	function del_file() {
 		if ( file( $_POST['delete'] ) ) {
 			unlink( $_POST['delete'] );
@@ -46,52 +46,114 @@
 	function uploadSimple() {
 //		print_r( $_POST );
 //		print_r( $_FILES );
-		echo '<form class="form form-horizontal" onsubmit="getProgress()" target="_self" enctype="multipart/form-data" method="post">
-					<input type="hidden" name="UPLOAD_IDENTIFIER" value="<?php echo $id;?>" />
-					<p>
-						<input class="btn btn-default" type="file" name="file" />
-					</p>
-					<p>
-						<input class="btn btn-primary" id="submitButton" type="submit" value="Upload File" />
-					</p>
-				</form>
-				';
 
+
+		echo '<form class="form form-horizontal" action="" enctype="multipart/form-data" method="post">
+						<p>
+							<input class="btn btn-default" type="file" name="file" id="fileA" onchange="fileChange();" />
+						</p>
+						<p>
+							<input class="btn btn-primary" onclick="uploadFile();" id="submitButton" type="submit" value="Upload File" />
+							<input class="btn btn-alert" name="abort" value="Abbrechen" type="button" onclick="uploadAbort();" disabled />
+						</p>
+					</form>
+					<div class="well">
+						<div id="fileName"></div>
+					  <div id="fileSize"></div>
+					  <div id="fileType"></div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar" id="progressNew" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 2%;">
+						0%
+						</div>
+					</div>
+					<script>
+						function fileChange()
+						{
+						    //FileList Objekt aus dem Input Element mit der ID "fileA"
+						    var fileList = document.getElementById("fileA").files;
+
+						    //File Objekt (erstes Element der FileList)
+						    var file = fileList[0];
+
+						    //File Objekt nicht vorhanden = keine Datei ausgewählt oder vom Browser nicht unterstützt
+						    if(!file)
+						        return;
+
+						    document.getElementById("fileName").innerHTML = \'Dateiname: \' + file.name;
+						    document.getElementById("fileSize").innerHTML = \'Dateigröße: \' + file.size + \' B\';
+						    document.getElementById("fileType").innerHTML = \'Dateitype: \' + file.type;
+						}
+						var client = null;
+
+						function uploadFile()	{
+						    //Wieder unser File Objekt
+						    var file = document.getElementById("fileA").files[0];
+						    //FormData Objekt erzeugen
+						    var formData = new FormData();
+						    //XMLHttpRequest Objekt erzeugen
+						    client = new XMLHttpRequest();
+
+						    if(!file)
+						        return;
+
+						    //Fügt dem formData Objekt unser File Objekt hinzu
+						    formData.append("datei", file);
+
+						    client.onerror = function(e) {
+						        alert("onError");
+						    };
+
+						    client.onload = function(e) {
+						    };
+
+						    client.upload.onprogress = function(e) {
+						        var p = Math.round(100 / e.total * e.loaded);
+										$(\'#progressNew\').css("width", p + "%"	);
+										$(\'#progressNew\').html( p + "%" );
+						    };
+
+						    client.onabort = function(e) {
+//						        alert("Upload abgebrochen");
+						    };
+
+						    client.open("POST", "_self");
+						    client.send(formData);
+						}
+						function uploadAbort() {
+					    if(client instanceof XMLHttpRequest)
+					        //Bricht die aktuelle Übertragung ab
+					        client.abort();
+						}
+					</script>
+					';
 		if ( is_array( $_FILES ) ) {
 			$this->fileUpload();
 		}
-
 	}
 	function fileUpload() {
 		$path = $this->folderCreate();
 
 		if ( !empty( $_FILES['file']['name'] ) ) {
 			if( $_FILES['file']['size'] < 55360000 AND $_FILES['file']['size'] > 0 ) {
-				$target = preg_replace("/[^a-zA-Z0-9_-]/", "_", $_FILES['file']['name'] ); // Sonderzeichen werden ausgetauscht
+				$target = preg_replace("/[^a-zA-Z0-9_.-]/", "_", $_FILES['file']['name'] ); // Sonderzeichen werden ausgetauscht
 				// Gibt es die Datei schon? Dann ein "(1)" anhängen
 				if ( file_exists( $path . "/" . $target ) ) {
-					echo "A File with this name does already exist.\n";
-					echo "The Upload was canceled!\n";
+					echo "<p>A File with this name does already exist.</p>";
+					echo "<h4>The Upload was canceled!</h4>";
 				} else  {
-					if ( $target != $_FILES['file']['tmp_name'] ) {
-						echo "New Filename is " . $target . "...\n";
-					}
 					// Datei kopieren
 	//				$_SESSION['message'][] = "Die Datei wurde kopiert.::0";
 					move_uploaded_file( $_FILES['file']['tmp_name'], $path . "/" . $target );
-					echo "The File has been uploaded!\n";
+					echo "<p>The File has been uploaded! ";
+					if ( $target != $_FILES['file']['tmp_name'] ) {
+						echo 'It\'s new Filename is "' . $target . '"';
+					}
+					echo '</p>';
 					echo "<h4>The Downloadlink is " . $_SESSION['cfg_base_url'] . $path . "/" . $target . "</h4>\n";
 				}
 			}
 		}
-/*
-		if ( !empty( $_FILES['datei']['name'] ) ) {
-			if( $_FILES['datei']['size'] < 15360000 AND $_FILES['datei']['size'] > 0 ) {
-				// Datei kopieren
-				move_uploaded_file($_FILES['datei']['tmp_name'], $path . "/" . urlencode( $_FILES['datei']['name'] ) );
-			}
-		}
-*/
 	}
 /*	function uploadDropzone() {
 		print_r( $_POST );
