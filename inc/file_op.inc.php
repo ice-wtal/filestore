@@ -1,5 +1,5 @@
 <?php/*	File Operations	ToDo:	- "#" Zeichen im Dateinamen macht Probleme beim Download! Entfernen / Ersetzen!
-	- Löschen: Ordner löschen wenn leer!*/class file_op {	private $mysqli;	private $folders;		// unterverzeichnisse von /files	private $files;	function __construct( $mysqli ) {		$this->mysqli = $mysqli;
+	- Löschen: Ordner löschen wenn leer!*/class file_op {	private $mysqli;	private $folders;		// unterverzeichnisse von /files	var $files;	function __construct( $mysqli ) {		$this->mysqli = $mysqli;
 		if ( !empty( $_POST['delete'] ) ) {
 			$this->del_file();
 		}
@@ -46,14 +46,13 @@
 	function uploadSimple() {
 //		print_r( $_POST );
 //		print_r( $_FILES );
-
-
 		echo '<form class="form form-horizontal" action="" enctype="multipart/form-data" method="post">
 						<p>
 							<input class="btn btn-default" type="file" name="file" id="fileA" onchange="fileChange();" />
 						</p>
 						<p>
-							<input class="btn btn-primary" onclick="uploadFile();" id="submitButton" type="submit" value="Upload File" />
+<!--							<input class="btn btn-primary" onclick="uploadFile();" id="submitButton" type="submit" value="Upload File" /> -->
+							<button class="btn btn-primary" type="submit" onclick="return checkDouble();" />Upload File</button>
 							<input class="btn btn-alert" name="abort" value="Abbrechen" type="button" onclick="uploadAbort();" disabled />
 						</p>
 					</form>
@@ -87,6 +86,7 @@
 						var client = null;
 
 						function uploadFile()	{
+
 						    //Wieder unser File Objekt
 						    var file = document.getElementById("fileA").files[0];
 						    //FormData Objekt erzeugen
@@ -125,23 +125,38 @@
 					        //Bricht die aktuelle Übertragung ab
 					        client.abort();
 						}
+						function checkDouble() {
+							fileB = document.getElementById("fileA").files[0].name;
+							$.post(\'inc/file_op.ajax.php\', { aktion:\'double\', datei:fileB },
+							function(data) {
+								if ( data == "0" ) {
+									uploadFile();
+								} else {
+									alert( "A File with this name already exists!" );
+								}
+							})
+							return data;
+						}
 					</script>
 					';
 		if ( is_array( $_FILES ) ) {
 			$this->fileUpload();
 		}
 	}
+	function renameFile( $file ) { // Sonderzeichen werden ausgetauscht
+		return preg_replace("/[^a-zA-Z0-9_.-]/", "_", $file );
+	}
 	function fileUpload() {
 		$path = $this->folderCreate();
 
 		if ( !empty( $_FILES['file']['name'] ) ) {
 			if( $_FILES['file']['size'] < 55360000 AND $_FILES['file']['size'] > 0 ) {
-				$target = preg_replace("/[^a-zA-Z0-9_.-]/", "_", $_FILES['file']['name'] ); // Sonderzeichen werden ausgetauscht
+				$target = $this->renameFile( $_FILES['file']['name'] );
 				// Gibt es die Datei schon? Dann ein "(1)" anhängen
-				if ( file_exists( $path . "/" . $target ) ) {
-					echo "<p>A File with this name does already exist.</p>";
-					echo "<h4>The Upload was canceled!</h4>";
-				} else  {
+//				if ( file_exists( $path . "/" . $target ) ) {
+//					echo "<p>A File with this name does already exist.</p>";
+//					echo "<h4>The Upload was canceled!</h4>";
+//				} else  {
 					// Datei kopieren
 	//				$_SESSION['message'][] = "Die Datei wurde kopiert.::0";
 					move_uploaded_file( $_FILES['file']['tmp_name'], $path . "/" . $target );
@@ -151,7 +166,7 @@
 					}
 					echo '</p>';
 					echo "<h4>The Downloadlink is " . $_SESSION['cfg_base_url'] . $path . "/" . $target . "</h4>\n";
-				}
+//				}
 			}
 		}
 	}
