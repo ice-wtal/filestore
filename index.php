@@ -11,6 +11,7 @@
 		  body { padding-top: 70px; }
 		</style>
 */
+
 	@session_start(); // session aufrufen
 	header('Content-Type: text/html; charset=utf-8');
 
@@ -51,31 +52,29 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<!--	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
 		<!-- Optionales Theme -->
 <!--		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> -->
 		<title><?php echo $index->title(); ?></title>
-		<script type="text/javascript" src="jQuery/jquery.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!--		<script type="text/javascript" src="jQuery/jquery.min.js"></script> -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+<!--		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-		<nav class="navbar navbar-default" >
-		  <div class="container-fluid">
-			<div class="navbar-header">
-			 <a class="navbar-brand" href="index.php">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+		 	<a class="navbar-brand" href="index.php">
 				filestore-sa
-			 </a>
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				</button>
-			</div>
+		 	</a>
+			<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<?php $index->navigation(); ?>
 			</div>
-		  </div>
 		</nav>
 
 		<div class="container-fluid">

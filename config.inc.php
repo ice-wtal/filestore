@@ -9,7 +9,7 @@
 */
 	$_SESSION['cfg_adminPass']	= "xxxx";	// Password to access before Multiuser config
 
-	$_SESSION['cfg_base_url']		= "http://www.filestore.com/";
+	$_SESSION['cfg_base_url']		= "https://www.filestore.com/";
 	$_SESSION['cfg_rootdir']		= '/filestore'; // Verzeichnis der index.php (Startdatei)
 
 	$_SESSION['cfg_db_host'] = "localhost";
