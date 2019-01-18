@@ -56,27 +56,6 @@ class index {
 		return "filestore-sa";
 	}
 	function navigation() {
-/*
-		// Menüpunkt für Startseite
-		echo '<ul class="nav navbar-nav">
-				<li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Start
-				<span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li' . ( empty( $_SESSION['cfg_param'][0] ) ? ' class="active"' : "" ) . '>
-							<a href="index.php">Homepage</a></li>
-					<li role="separator" class="divider"></li>';
-		if ( $_SESSION['cfg_userno'] ) { // extra Punkte wenn eingeloggt
-			echo '<li' . ( $_SESSION['cfg_param'][0] == "upload" ? ' class="active"' : "" ) . '>
-						<a href="index.php?param=upload">Fileupload</a></li>
-					<li role="separator" class="divider"></li>';
-		}
-			echo '<li' . ( $_SESSION['cfg_param'][0] == "imprint" ? ' class="active"' : "" ) . '>
-						<a href="index.php?param=imprint">Imprint</a></li>
-				</ul>
-				</li>
-			</ul>';
-*/
 		// Menüpunkt für Startseite
 		echo '<ul class="navbar-nav mr-auto">
 					<li class="nav-item' . ( empty( $_SESSION['cfg_param'][0] ) ? ' active' : "" ) . '">

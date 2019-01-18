@@ -6,10 +6,6 @@
 
 	!! Deshalb können keine großen Dateien hochgeladen werden !!
 
-	<!-- For bootstrap fixed Nav, body padding is required -->
-		<style type="text/css">
-		  body { padding-top: 70px; }
-		</style>
 */
 
 	@session_start(); // session aufrufen

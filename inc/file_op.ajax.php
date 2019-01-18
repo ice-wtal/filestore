@@ -107,7 +107,6 @@ class file_op_ajax {
 						function changeFile( a ) {
 							$("#neueDatei").val( a.value );
 							$("#uploadModal").modal("show");
-//							uploadFile();
 						}
 						function deleteFile( a ) {
 							$.post(\'inc/file_op.ajax.php\', { deleteFile:a.value },

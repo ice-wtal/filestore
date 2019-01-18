@@ -83,61 +83,6 @@ class file_op {
 					';
 		$this->uploadModal();
 	}
-
-/*	function filearray2list () { // ALT!!!
-//		print_r( $_POST );
-		if ( $_SESSION['cfg_userno'] ) {
-			echo '<p class="text-right">
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
-						  	Datei hochladen
-							</button>
-						</p>';
-		}
-		echo '<form class="form-horizontal" name="eingang" action="' . $_SERVER['REQUEST_URI'] . '" method="POST" >
-					<div class="row">
-					<div class="col-md-10 col-md-offset-1">
-						<table class="table table-hover">';
-		foreach( $this->files as $file ) {
-			echo "<tr>";
-			// Lösch- Button und Datum! nur wenn angemeldet!
-			if ( $_SESSION['cfg_userno'] ) {
-				echo '<td>
-								<button class="btn btn-danger" name="delete" value="' . $file[1] . '" >
-									<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-default" onClick="changeFile( this );" value="' . $file[1] . '" >
-									Aktualisieren
-								</button>
-							</td>
-							<td>
-								' . date( "d.m.Y", filectime( $file[1] ) ) . '
-							</td>';
-			}
-			echo '<td>
-							<a href="' . $file[1] . '" target="_blank" >
-								' . $file[0] . '
-							</a>
-						</td>
-						<td class="text-right"><span class="badge">' . $this->human_filesize( filesize( $file[1] ), 1 ) . '</span></td>
-						';
-			echo "</tr>";
-		}
-		echo '	</table>
-					</div>
-					</div>
-					</form>
-					<script type="text/javascript">
-						function changeFile( a ) {
-//							alert( "Funktioniert noch nicht! Datei: " + a.value );
-							$("#neueDatei").val( a.value );
-							$("#uploadModal").modal("show");
-//							uploadFile();
-						}
-					</script>';
-//		print_r( $_POST );
-		$this->uploadModal();
-	}
-*/
 	function del_file() {
 		if ( file( $_POST['delete'] ) ) {
 			unlink( $_POST['delete'] );
